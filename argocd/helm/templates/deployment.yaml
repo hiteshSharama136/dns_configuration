@@ -1,0 +1,43 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argocd-server
+    spec:
+      automountServiceAccountToken: false
+      containers:
+    #   - name: argocd-server
+        image: argoproj/argocd:v2.0.0
+        command:
+        - argocd-server
+        - --staticassets
+        - /shared/app
+        - --repo-server
+        - argocd-repo-server
+        - --insecure
+        - --log-level=info
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi   # Add memory limit here
+          requests:
+            cpu: 50m
+            memory: 128Mi   # Add memory request here
+        volumeMounts:
+        - name: argocd-static-vol
+          mountPath: /shared/app
+      volumes:
+      - name: argocd-static-vol
+        emptyDir: {}

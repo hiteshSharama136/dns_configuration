@@ -1,0 +1,11 @@
+# values.yaml
+argo-cd:
+  config:
+    resource.exclusions: |
+      secrets/*
+      configmaps/*
+      .git*
+      values.yaml
+  server:
+    service:
+      type: LoadBalancer
