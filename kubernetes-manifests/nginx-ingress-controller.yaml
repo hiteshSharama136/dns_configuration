@@ -14,7 +14,7 @@ spec:
         app: nginx-ingress
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
-      automountServiceAccountToken: false   # Add this line
+      automountServiceAccountToken: false   
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.47.0
